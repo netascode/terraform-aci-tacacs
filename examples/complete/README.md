@@ -1,5 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
-# Scaffolding Example
+# TACACS Example
 
 To run this example you need to execute:
 
@@ -12,13 +12,22 @@ $ terraform apply
 Note that this example will create resources. Resources can be destroyed with `terraform destroy`.
 
 ```hcl
-module "aci_scaffolding" {
-  source  = "netascode/scaffolding/aci"
+module "aci_tacacs" {
+  source  = "netascode/tacacs/aci"
   version = ">= 0.0.1"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
-  description = "My Description"
+  hostname_ip         = "1.1.1.1"
+  description         = "My Description"
+  protocol            = "chap"
+  monitoring          = true
+  monitoring_username = "USER1"
+  monitoring_password = "PASSWORD1"
+  key                 = "ABCDEFGH"
+  port                = 149
+  retries             = 3
+  timeout             = 10
+  mgmt_epg            = "oob"
+  mgmt_epg_name       = "OOB1"
 }
 
 ```

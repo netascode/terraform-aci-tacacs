@@ -14,35 +14,90 @@ terraform {
 module "main" {
   source = "../.."
 
-  name        = "ABC"
-  alias       = "ALIAS"
-  description = "DESCR"
+  hostname_ip         = "1.1.1.1"
+  description         = "My Description"
+  protocol            = "chap"
+  monitoring          = true
+  monitoring_username = "USER1"
+  monitoring_password = "PASSWORD1"
+  key                 = "ABCDEFGH"
+  port                = 149
+  retries             = 3
+  timeout             = 10
+  mgmt_epg            = "oob"
+  mgmt_epg_name       = "OOB1"
 }
 
-data "aci_rest" "fvTenant" {
-  dn = "uni/tn-ABC"
+data "aci_rest" "aaaTacacsPlusProvider" {
+  dn = "uni/userext/tacacsext/tacacsplusprovider-1.1.1.1"
 
   depends_on = [module.main]
 }
 
-resource "test_assertions" "fvTenant" {
-  component = "fvTenant"
+resource "test_assertions" "aaaTacacsPlusProvider" {
+  component = "aaaTacacsPlusProvider"
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.fvTenant.content.name
-    want        = "ABC"
-  }
-
-  equal "nameAlias" {
-    description = "nameAlias"
-    got         = data.aci_rest.fvTenant.content.nameAlias
-    want        = "ALIAS"
+    got         = data.aci_rest.aaaTacacsPlusProvider.content.name
+    want        = "1.1.1.1"
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.fvTenant.content.descr
-    want        = "DESCR"
+    got         = data.aci_rest.aaaTacacsPlusProvider.content.descr
+    want        = "My Description"
+  }
+
+  equal "authProtocol" {
+    description = "authProtocol"
+    got         = data.aci_rest.aaaTacacsPlusProvider.content.authProtocol
+    want        = "chap"
+  }
+
+  equal "monitorServer" {
+    description = "monitorServer"
+    got         = data.aci_rest.aaaTacacsPlusProvider.content.monitorServer
+    want        = "enabled"
+  }
+
+  equal "monitoringUser" {
+    description = "monitoringUser"
+    got         = data.aci_rest.aaaTacacsPlusProvider.content.monitoringUser
+    want        = "USER1"
+  }
+
+  equal "port" {
+    description = "port"
+    got         = data.aci_rest.aaaTacacsPlusProvider.content.port
+    want        = "149"
+  }
+
+  equal "retries" {
+    description = "retries"
+    got         = data.aci_rest.aaaTacacsPlusProvider.content.retries
+    want        = "3"
+  }
+
+  equal "timeout" {
+    description = "timeout"
+    got         = data.aci_rest.aaaTacacsPlusProvider.content.timeout
+    want        = "10"
+  }
+}
+
+data "aci_rest" "aaaRsSecProvToEpg" {
+  dn = "${data.aci_rest.aaaTacacsPlusProvider.id}/rsSecProvToEpg"
+
+  depends_on = [module.main]
+}
+
+resource "test_assertions" "aaaRsSecProvToEpg" {
+  component = "aaaRsSecProvToEpg"
+
+  equal "tDn" {
+    description = "tDn"
+    got         = data.aci_rest.aaaRsSecProvToEpg.content.tDn
+    want        = "uni/tn-mgmt/mgmtp-default/oob-OOB1"
   }
 }

@@ -1,23 +1,32 @@
 <!-- BEGIN_TF_DOCS -->
-[![Tests](https://github.com/netascode/terraform-aci-scaffolding/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-scaffolding/actions/workflows/test.yml)
+[![Tests](https://github.com/netascode/terraform-aci-tacacs/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-tacacs/actions/workflows/test.yml)
 
-# Terraform ACI Scaffolding Module
+# Terraform ACI TACACS Module
 
-Description
+Manages ACI TACACS
 
 Location in GUI:
-`Tenants` » `XXX`
+`Admin` » `AAA` » `Authentication` » `TACACS`
 
 ## Examples
 
 ```hcl
-module "aci_scaffolding" {
-  source  = "netascode/scaffolding/aci"
+module "aci_tacacs" {
+  source  = "netascode/tacacs/aci"
   version = ">= 0.0.1"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
-  description = "My Description"
+  hostname_ip         = "1.1.1.1"
+  description         = "My Description"
+  protocol            = "chap"
+  monitoring          = true
+  monitoring_username = "USER1"
+  monitoring_password = "PASSWORD1"
+  key                 = "ABCDEFGH"
+  port                = 149
+  retries             = 3
+  timeout             = 10
+  mgmt_epg            = "oob"
+  mgmt_epg_name       = "OOB1"
 }
 
 ```
@@ -39,20 +48,29 @@ module "aci_scaffolding" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_name"></a> [name](#input\_name) | Tenant name. | `string` | n/a | yes |
-| <a name="input_alias"></a> [alias](#input\_alias) | Tenant alias. | `string` | `""` | no |
-| <a name="input_description"></a> [description](#input\_description) | Tenant description. | `string` | `""` | no |
+| <a name="input_hostname_ip"></a> [hostname\_ip](#input\_hostname\_ip) | Hostname or IP. | `string` | n/a | yes |
+| <a name="input_description"></a> [description](#input\_description) | Description. | `string` | `""` | no |
+| <a name="input_protocol"></a> [protocol](#input\_protocol) | Protocol. Choices: `pap`, `chap`, `mschap`. | `string` | `"pap"` | no |
+| <a name="input_monitoring"></a> [monitoring](#input\_monitoring) | Monitoring. | `bool` | `false` | no |
+| <a name="input_monitoring_username"></a> [monitoring\_username](#input\_monitoring\_username) | Monitoring username. | `string` | `""` | no |
+| <a name="input_monitoring_password"></a> [monitoring\_password](#input\_monitoring\_password) | Monitoring password. | `string` | `""` | no |
+| <a name="input_key"></a> [key](#input\_key) | Key. | `string` | `""` | no |
+| <a name="input_port"></a> [port](#input\_port) | Port. Minimum value: 0, Maximum value: 65535. | `number` | `49` | no |
+| <a name="input_retries"></a> [retries](#input\_retries) | Retries. Minimum value: 0, Maximum value: 5. | `number` | `1` | no |
+| <a name="input_timeout"></a> [timeout](#input\_timeout) | Timeout. Minimum value: 0, Maximum value: 60. | `number` | `5` | no |
+| <a name="input_mgmt_epg"></a> [mgmt\_epg](#input\_mgmt\_epg) | Management EPG. Choices: `inb`, `oob`. | `string` | `"inb"` | no |
+| <a name="input_mgmt_epg_name"></a> [mgmt\_epg\_name](#input\_mgmt\_epg\_name) | Management EPG name. | `string` | `""` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_dn"></a> [dn](#output\_dn) | Distinguished name of `fvTenant` object. |
-| <a name="output_name"></a> [name](#output\_name) | Tenant name. |
+| <a name="output_dn"></a> [dn](#output\_dn) | Distinguished name of `aaaTacacsPlusProvider` object. |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aci_rest.fvTenant](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest.aaaRsSecProvToEpg](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest.aaaTacacsPlusProvider](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
 <!-- END_TF_DOCS -->
