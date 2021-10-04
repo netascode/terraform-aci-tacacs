@@ -20,9 +20,10 @@ resource "aci_rest" "aaaTacacsPlusProvider" {
 }
 
 resource "aci_rest" "aaaRsSecProvToEpg" {
+  count      = var.mgmt_epg_name != "" ? 1 : 0
   dn         = "${aci_rest.aaaTacacsPlusProvider.id}/rsSecProvToEpg"
   class_name = "aaaRsSecProvToEpg"
   content = {
-    tDn = var.mgmt_epg == "oob" ? "uni/tn-mgmt/mgmtp-default/oob-${var.mgmt_epg_name}" : "uni/tn-mgmt/mgmtp-default/inb-${var.mgmt_epg_name}"
+    tDn = var.mgmt_epg_type == "oob" ? "uni/tn-mgmt/mgmtp-default/oob-${var.mgmt_epg_name}" : "uni/tn-mgmt/mgmtp-default/inb-${var.mgmt_epg_name}"
   }
 }

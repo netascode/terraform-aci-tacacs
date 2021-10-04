@@ -24,7 +24,7 @@ module "main" {
   port                = 149
   retries             = 3
   timeout             = 10
-  mgmt_epg            = "oob"
+  mgmt_epg_type       = "oob"
   mgmt_epg_name       = "OOB1"
 }
 

@@ -1,6 +1,6 @@
 module "aci_tacacs" {
   source  = "netascode/tacacs/aci"
-  version = ">= 0.0.1"
+  version = ">= 0.0.2"
 
   hostname_ip         = "1.1.1.1"
   description         = "My Description"
@@ -12,6 +12,6 @@ module "aci_tacacs" {
   port                = 149
   retries             = 3
   timeout             = 10
-  mgmt_epg            = "oob"
+  mgmt_epg_type       = "oob"
   mgmt_epg_name       = "OOB1"
 }
