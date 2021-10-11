@@ -21,7 +21,7 @@ resource "aci_rest" "aaaTacacsPlusProvider" {
 
 resource "aci_rest" "aaaRsSecProvToEpg" {
   count      = var.mgmt_epg_name != "" ? 1 : 0
-  dn         = "${aci_rest.aaaTacacsPlusProvider.id}/rsSecProvToEpg"
+  dn         = "${aci_rest.aaaTacacsPlusProvider.dn}/rsSecProvToEpg"
   class_name = "aaaRsSecProvToEpg"
   content = {
     tDn = var.mgmt_epg_type == "oob" ? "uni/tn-mgmt/mgmtp-default/oob-${var.mgmt_epg_name}" : "uni/tn-mgmt/mgmtp-default/inb-${var.mgmt_epg_name}"
