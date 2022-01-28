@@ -1,4 +1,4 @@
-resource "aci_rest" "aaaTacacsPlusProvider" {
+resource "aci_rest_managed" "aaaTacacsPlusProvider" {
   dn         = "uni/userext/tacacsext/tacacsplusprovider-${var.hostname_ip}"
   class_name = "aaaTacacsPlusProvider"
   content = {
@@ -19,9 +19,9 @@ resource "aci_rest" "aaaTacacsPlusProvider" {
   }
 }
 
-resource "aci_rest" "aaaRsSecProvToEpg" {
+resource "aci_rest_managed" "aaaRsSecProvToEpg" {
   count      = var.mgmt_epg_name != "" ? 1 : 0
-  dn         = "${aci_rest.aaaTacacsPlusProvider.dn}/rsSecProvToEpg"
+  dn         = "${aci_rest_managed.aaaTacacsPlusProvider.dn}/rsSecProvToEpg"
   class_name = "aaaRsSecProvToEpg"
   content = {
     tDn = var.mgmt_epg_type == "oob" ? "uni/tn-mgmt/mgmtp-default/oob-${var.mgmt_epg_name}" : "uni/tn-mgmt/mgmtp-default/inb-${var.mgmt_epg_name}"

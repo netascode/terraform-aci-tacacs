@@ -5,8 +5,8 @@ terraform {
     }
 
     aci = {
-      source  = "netascode/aci"
-      version = ">=0.2.0"
+      source  = "CiscoDevNet/aci"
+      version = ">=2.0.0"
     }
   }
 }
@@ -17,7 +17,7 @@ module "main" {
   hostname_ip = "1.1.1.1"
 }
 
-data "aci_rest" "aaaTacacsPlusProvider" {
+data "aci_rest_managed" "aaaTacacsPlusProvider" {
   dn = "uni/userext/tacacsext/tacacsplusprovider-1.1.1.1"
 
   depends_on = [module.main]
@@ -28,7 +28,7 @@ resource "test_assertions" "aaaTacacsPlusProvider" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.aaaTacacsPlusProvider.content.name
+    got         = data.aci_rest_managed.aaaTacacsPlusProvider.content.name
     want        = "1.1.1.1"
   }
 }

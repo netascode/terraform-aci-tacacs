@@ -14,7 +14,7 @@ Note that this example will create resources. Resources can be destroyed with `t
 ```hcl
 module "aci_tacacs" {
   source  = "netascode/tacacs/aci"
-  version = ">= 0.0.2"
+  version = ">= 0.1.0"
 
   hostname_ip         = "1.1.1.1"
   description         = "My Description"
@@ -29,6 +29,5 @@ module "aci_tacacs" {
   mgmt_epg_type       = "oob"
   mgmt_epg_name       = "OOB1"
 }
-
 ```
 <!-- END_TF_DOCS -->
