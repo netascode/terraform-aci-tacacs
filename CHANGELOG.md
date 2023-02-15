@@ -1,3 +1,7 @@
+## 0.1.1 (unreleased)
+
+- Make the `monitoring_password` and `key` variable sensitive
+
 ## 0.1.0
 
 - Migrate to devnet provider
