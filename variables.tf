@@ -51,12 +51,14 @@ variable "monitoring_password" {
   description = "Monitoring password."
   type        = string
   default     = ""
+  sensitive   = true
 }
 
 variable "key" {
   description = "Key."
   type        = string
   default     = ""
+  sensitive   = true
 }
 
 variable "port" {
