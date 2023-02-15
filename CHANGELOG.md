@@ -1,4 +1,4 @@
-## 0.1.1 (unreleased)
+## 0.1.1
 
 - Make the `monitoring_password` and `key` variable sensitive
 
